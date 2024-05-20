@@ -10,44 +10,40 @@ terraform {
 
 resource "google_container_cluster" "primary" {
   name     = "demo-cluster"
-  location = "us-central1-a"
-  project  = "lumen-b-ctl-047"
-
-  networking_mode = "VPC_NATIVE"
-  initial_node_count = 1
-
-  ip_allocation_policy {
-  }
+  location = "us-central1"
+ project  = "lumen-b-ctl-047"
 
   remove_default_node_pool = true
+  initial_node_count       = 1
 
-  node_pool {
-    name       = "default-pool"
-    node_count = 1
-    config {
-      machine_type = "e2-medium"
-      disk_size_gb = 100
-      oauth_scopes = [
-        "https://www.googleapis.com/auth/compute",
-        "https://www.googleapis.com/auth/devstorage.read_only",
-        "https://www.googleapis.com/auth/logging.write",
-        "https://www.googleapis.com/auth/monitoring",
-      ]
-    }
+  networking_mode = "k8s_pod_networking"
+
+  ip_allocation_policy {
+    cluster_ipv4_cidr_block  = "/14"
+    services_ipv4_cidr_block = "/20"
   }
+}
 
-  node_pool {
-    name       = "secondary-pool"
-    node_count = 1
-    config {
-      machine_type = "e2-medium"
-      disk_size_gb = 100
-      oauth_scopes = [
-        "https://www.googleapis.com/auth/compute",
-        "https://www.googleapis.com/auth/devstorage.read_only",
-        "https://www.googleapis.com/auth/logging.write",
-        "https://www.googleapis.com/auth/monitoring",
-      ]
-    }
+resource "google_container_node_pool" "pool_1" {
+  name       = "pool-1"
+  location  = "us-central1"
+  project   = "lumen-b-ctl-047"
+  cluster   = google_container_cluster.primary.name
+  node_count = 1
+
+  autoscaling {
+    enabled = false
+  }
+}
+
+resource "google_container_node_pool" "pool_2" {
+  name       = "pool-2"
+  location  = "us-central1"
+  project   = "lumen-b-ctl-047"
+  cluster   = google_container_cluster.primary.name
+  node_count = 1
+
+  autoscaling {
+    enabled = false
   }
 }
