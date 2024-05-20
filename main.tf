@@ -40,8 +40,8 @@ resource "google_container_cluster" "primary" {
     name       = "secondary-pool"
     node_count = 1
     config {
-      machine_type = "e2-standard-4"
-      disk_size_gb = 200
+      machine_type = "e2-medium"
+      disk_size_gb = 100
       oauth_scopes = [
         "https://www.googleapis.com/auth/compute",
         "https://www.googleapis.com/auth/devstorage.read_only",
