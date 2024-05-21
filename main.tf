@@ -1,6 +1,6 @@
 
 provider "google" {
- credentials_file = "path_to_credentials_file"
+ credentials_file = "path_to_your_credentials_file.json"
  project = "lumen-b-ctl-047"
 }
 
@@ -15,7 +15,7 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  network_interface {
+ network_interface {
     network = "default"
   }
 }
