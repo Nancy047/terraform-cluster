@@ -1,6 +1,6 @@
 
 provider "google" {
- credentials_file = "path_to_your_credentials_file.json"
+ credentials_file = "path_to_credentials_file"
  project = "lumen-b-ctl-047"
 }
 
