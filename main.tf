@@ -9,8 +9,8 @@ terraform {
 }
 
 provider "google" {
-  credentials = "path/to/credentials.json"
-  project     = "lumen-b-ctl-047"
+  credentials_file = "path_to_credentials_file"
+  project = "lumen-b-ctl-047"
 }
 
 resource "google_storage_bucket" "my-bucket" {
