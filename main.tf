@@ -1,21 +1,19 @@
 
-terraform {
-  required_providers {
-    google = {
-      version = "5.22.0"
-    }
-  }
-}
-
 provider "google" {
-  credentials_file = "path-to-credentials-file.json"
-  project          = "lumen-b-ctl-047"
+  credentials = file(".gcp/credentials.json")
+  project     = "lumen-b-ctl-047"
 }
 
-resource "google_storage_bucket" "bucket" {
-  name          = "my-bucket1"
-  location      = "US-CENTRAL1"
- storage_class = "STANDARD"
-  force_destroy = false
- uniform_bucket_level_access = true
+resource "google_compute_instance" "default" {
+ name         = "demo-vm"
+ machine_type = "e2-medium"
+ zone         = "us-central1-a"
+ boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+ }
+ }
+ network_interface {
+    network = "default"
+ }
 }
