@@ -1,11 +1,11 @@
 
 provider "google" {
-  credentials = file("credentials.json")
+  credentials = file(".gcp/credentials.json")
   project     = "lumen-b-ctl-047"
 }
 
 resource "google_compute_instance" "default" {
-  name         = "demo1-vm"
+  name         = "demo-vm"
   machine_type = "e2-medium"
   zone         = "us-central1-a"
 
@@ -15,5 +15,7 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  network_interface {}
+  network_interface {
+    network = "default"
+  }
 }
