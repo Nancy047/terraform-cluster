@@ -13,7 +13,7 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "bucket" {
-  name          = "my-bucket"
+  name          = "my-bucket1"
   location      = "US-CENTRAL1"
   force_destroy = false
   storage_class = "STANDARD"
