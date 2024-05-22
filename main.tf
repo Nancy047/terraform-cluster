@@ -8,14 +8,14 @@ terraform {
 }
 
 provider "google" {
-  credentials_file = "credentials.json"
+  credentials_file = "~/.config/gcp/terraform.json"
   project = "lumen-b-ctl-047"
 }
 
 resource "google_storage_bucket" "bucket" {
   name          = "my-bucket1"
   location      = "US-CENTRAL1"
+ storage_class = "STANDARD"
   force_destroy = false
-  storage_class = "STANDARD"
   uniform_bucket_level_access = true
 }
