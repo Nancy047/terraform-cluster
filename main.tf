@@ -1,19 +1,27 @@
 
-provider "google" {
-  credentials = file(".gcp/credentials.json")
-  project     = "lumen-b-ctl-047"
-}
-
-resource "google_compute_instance" "default" {
-  name         = "demo-vm"
-  machine_type = "e2-medium"
-  zone         = "us-central1-a"
- boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-11"
+terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
     }
   }
-  network_interface {
-    network = "default"
+}
+
+provider "google" {
+  project = "lumen-b-ctl-047"
+}
+
+resource "google_container_cluster" "primary" {
+  name     = "gke-cluster-name"
+  location = "us-central1"
+
+  initial_node_pool {
+    name               = "default-pool"
+    autoscaling        = true
+    min_node_count     = 1
+    max_node_count     = 3
+    node_locations = ["us-central1-a", "us-central1-b", "us-central1-c"]
   }
+
+  remove_default_node_pool = true
 }
