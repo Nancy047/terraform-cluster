@@ -11,34 +11,40 @@ terraform {
 resource "google_container_cluster" "primary" {
   name     = "my-cluster"
   location = "us-central1"
- project  = "lumen-b-ctl-047"
+ project  = "lumen"
 
-  remove_default_node_pool   = true
-  initial_node_count         = 1
-  enable_legacy_abac         = false
-  vertical_pod_autoscaling = true
-}
-
-resource "google_container_node_pool" "pools" {
-  name       = "pool-01"
-  location  = "us-central1"
-  project   = "lumen-b-ctl-047"
-  cluster   = google_container_cluster.primary.name
-  node_count = 1
+  remove_default_node_pool = true
+  initial_node_count       = 1
 
   autoscaling {
-    enabled = false
+    enabled = true
   }
 }
 
-resource "google_container_node_pool" "pools-02" {
-  name       = "pool-02"
+resource "google_container_node_pool" "pool_1" {
+  name       = "pool-1"
   location  = "us-central1"
-  project   = "lumen-b-ctl-047"
+  project   = "lumen"
   cluster   = google_container_cluster.primary.name
   node_count = 1
 
   autoscaling {
-    enabled = false
+    enabled = true
+    min_nodes = 1
+    max_nodes = 3
+  }
+}
+
+resource "google_container_node_pool" "pool_2" {
+  name       = "pool-2"
+  location  = "us-central1"
+  project   = "lumen"
+  cluster   = google_container_cluster.primary.name
+  node_count = 1
+
+  autoscaling {
+    enabled = true
+    min_nodes = 1
+    max_nodes = 3
   }
 }
