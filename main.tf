@@ -17,10 +17,14 @@ resource "google_compute_instance" "default" {
   name         = "my-vm"
   machine_type = "e2-medium"
   zone         = "us-central1-a"
-  boot_disk {
+
+ boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
     }
   }
- network_interface {}
+
+  network_interface {
+    network = "default"
+  }
 }
