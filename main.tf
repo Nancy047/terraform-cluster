@@ -1,19 +1,28 @@
 
+terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.0"
+    }
+  }
+}
+
 provider "google" {
-  credentials = file("/path/to/your/credentials.json")
+  credentials = file("key.json")
   project     = "lumen-b-ctl-047"
 }
 
-resource "google_container_cluster" "primary" {
-  name     = "test-cluster"
-  location = "us-central1-c"
-
-  initial_node_count = 2
-
- node_config {
-    machine_type = "e2-medium"
- }
-  autoscaling {
-    disabled = true
+resource "google_compute_instance" "default" {
+  name         = "demo-vm"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+ boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+  network_interface {
+    network = "default"
   }
 }
