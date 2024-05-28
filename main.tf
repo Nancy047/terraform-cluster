@@ -10,11 +10,11 @@ terraform {
 
 provider "google" {
   credentials = file("path/to/credentials.json")
-  project     = "my-project"
+  project     = "testproject"
 }
 
 resource "google_container_cluster" "default" {
-  name     = "my-cluster"
+  name     = "test-cluster"
   location = "us-central1-c"
   initial_node_count = 2
   node_config {
