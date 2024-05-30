@@ -14,7 +14,7 @@ provider "google" {
 }
 
 resource "google_compute_instance" "default" {
-  name         = "my_bucket"
+  name         = "vm-instance"
   machine_type = "e2-medium"
   zone         = "us-central1-a"
 
