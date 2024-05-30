@@ -10,17 +10,17 @@ terraform {
 
 provider "google" {
   credentials = "key.json"
-  project     = "my-project"
+  project     = "lumen-b-ctl-047"
 }
 
 resource "google_compute_instance" "default" {
-  name         = "my-vm"
+  name         = "demo-vm"
   machine_type = "e2-medium"
   zone         = "us-central1-a"
 
   boot_disk {
     initialize_params {
-      image = "centos-cloud/centos-7"
+      image = "debian-cloud/debian-12"
     }
   }
 
