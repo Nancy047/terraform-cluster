@@ -10,12 +10,12 @@ terraform {
 
 provider "google" {
   credentials = file("key.json")
-  project     = "lumen-b-ctl-047"
+  project     = "my-project"
 }
 
 resource "google_storage_bucket" "default" {
   name           = "my-bucket"
   location       = "us-central1"
   storage_class  = "STANDARD"
-  uniform_bucket_level_access = true
+  uniform_bucket_level_access = false
 }
