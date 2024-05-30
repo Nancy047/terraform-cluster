@@ -9,22 +9,17 @@ terraform {
 }
 
 provider "google" {
-  credentials = "key.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("key.json")
+  project     = "testproject"
 }
 
-resource "google_compute_instance" "default" {
-  name         = "demo-vm"
-  machine_type = "e2-medium"
-  zone         = "us-central1-a"
+resource "google_container_cluster" "default" {
+  name     = "test-cluster"
+  location = "us-central1-c"
 
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-11"
-    }
-  }
+  initial_node_count = 2
 
-  network_interface {
-    network = "default"
+  node_config {
+    machine_type = "e2-medium"
   }
 }
