@@ -13,18 +13,13 @@ provider "google" {
   project     = "my-project"
 }
 
-resource "google_compute_instance" "default" {
-  name         = "vm-instance"
-  machine_type = "e2-medium"
-  zone         = "us-central1-a"
+resource "google_container_cluster" "default" {
+  name     = "my-cluster"
+  location = "us-central1-c"
 
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-11"
-    }
-  }
+  initial_node_count = 2
 
-  network_interface {
-    network = "default"
+  node_config {
+    machine_type = "e2-medium"
   }
 }
