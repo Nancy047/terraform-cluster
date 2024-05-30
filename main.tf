@@ -10,14 +10,21 @@ terraform {
 
 provider "google" {
   credentials = "key.json"
-  project     = "us-central1"
+  project     = "my-project"
 }
 
-resource "google_container_cluster" "default" {
-  name     = "my-cluster"
-  location = "us-central1-c"
-  initial_node_count = 2
-  node_config {
-    machine_type = "n1-standard-1"
+resource "google_compute_instance" "default" {
+  name         = "my-vm"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
   }
 }
