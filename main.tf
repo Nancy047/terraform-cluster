@@ -9,13 +9,22 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("key.json")
+  credentials = "key.json"
   project     = "my-project"
 }
 
-resource "google_storage_bucket" "default" {
-  name           = "my-bucket"
-  location       = "us-central1"
-  storage_class  = "STANDARD"
-  uniform_bucket_level_access = false
+resource "google_compute_instance" "default" {
+  name         = "my_bucket"
+  machine_type = "e2-medium"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-11"
+    }
+  }
+
+  network_interface {
+    network = "default"
+  }
 }
