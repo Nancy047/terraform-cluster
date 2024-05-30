@@ -17,5 +17,5 @@ resource "google_storage_bucket" "default" {
   name           = "my-bucket"
   location       = "us-central1"
   storage_class  = "STANDARD"
-  uniform_bucket_level_access = false
+  uniform_bucket_level_access = true
 }
