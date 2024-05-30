@@ -10,11 +10,11 @@ terraform {
 
 provider "google" {
   credentials = "key.json"
-  project     = "lumen-b-ctl-047"
+  project     = "my-project"
 }
 
 resource "google_compute_instance" "default" {
-  name         = "demo-vm"
+  name         = "my-vm"
   machine_type = "e2-medium"
   zone         = "us-central1-a"
 
