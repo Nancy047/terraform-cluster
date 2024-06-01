@@ -1,39 +1,34 @@
-name: Terraform
-
+name: Deploy to GCP with Terraform
+ 
 on:
   push:
     branches:
-      - main
-
-jobs:
+      - main  # specify the branch you want to trigger the deployment
+ 
+jobs:        
   terraform:
     runs-on: ubuntu-latest
-
+ 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    
+    - name: Configure Google Cloud credentials
+      env:
+        GCP_SECRET: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY}}
+        run: echo "$GCP_SERVICE_ACCOUNT_KEY" > keys.json 
+    
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.5
+    
+    - name: Terraform Init
+      run: terraform init
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.0.11
-
-      - name: Set GOOGLE_APPLICATION_CREDENTIALS
-        run: echo "export GOOGLE_APPLICATION_CREDENTIALS=keys.json" >> $GITHUB_ENV
-
-      - name: Create keys.json file
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > keys.json
-
-      - name: Initialize Terraform
-        run: terraform init
-
-      - name: Validate Terraform
-        run: terraform validate
-
-      - name: Plan Terraform
-        run: terraform plan
-
-      - name: Apply Terraform
-        if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
-
+    - name: Terraform Plan
+      run: terraform plan
+   
+ 
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
