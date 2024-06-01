@@ -13,8 +13,8 @@ provider "google" {
   project     = "lumen-b-ctl-047"
 }
 
-resource "google_storage_bucket" "default" {
-  name           = "terra-bucket"
+resource "google_storage_bucket" "chat-bucket" {
+  name           = "chat-bucket"
   location       = "us-central1"
   storage_class = "STANDARD"
   uniform_bucket_level_access = false
