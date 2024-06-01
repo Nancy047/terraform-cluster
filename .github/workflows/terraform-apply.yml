@@ -18,8 +18,8 @@ jobs:
         with:
           terraform_version: 1.0.11
 
-      - name: Create keys.json file
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > keys.json
+      - name: Decode and create keys.json file
+        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | base64 -d > keys.json
 
       - name: Print keys.json file
         run: cat keys.json
