@@ -15,8 +15,9 @@ jobs:
     
     - name: Configure Google Cloud credentials
       env:
-        GCP_SECRET: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY}}
-        run: echo "$GCP_SERVICE_ACCOUNT_KEY" > keys.json 
+        GCP_SECRET: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+      run: |
+        echo "$GCP_SERVICE_ACCOUNT_KEY" > keys.json 
     
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -24,11 +25,14 @@ jobs:
         terraform_version: 0.15.5
     
     - name: Terraform Init
-      run: terraform init
+      run: |
+        terraform init
 
     - name: Terraform Plan
-      run: terraform plan
+      run: |
+        terraform plan
    
  
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: |
+        terraform apply -auto-approve
