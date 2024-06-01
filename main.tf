@@ -14,8 +14,8 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "default" {
-  name           = "my-bucket"
+  name           = "terra-bucket"
   location       = "us-central1"
-  storage_class  = "STANDARD"
+  storage_class = "STANDARD"
   uniform_bucket_level_access = false
 }
