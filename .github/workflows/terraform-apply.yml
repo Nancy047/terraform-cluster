@@ -21,6 +21,9 @@ jobs:
       - name: Create keys.json file
         run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > keys.json
 
+      - name: Print keys.json file
+        run: cat keys.json
+
       - name: Initialize Terraform
         run: terraform init
 
