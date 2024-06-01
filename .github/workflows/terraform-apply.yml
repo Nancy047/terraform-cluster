@@ -13,13 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Print GCP_SERVICE_ACCOUNT_KEY
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+      - name: Decode secret and create JSON file
+        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | base64 -d > keys.json
 
-      - name: Create keys.json file
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > keys.json
-
-      - name: Print keys.json file
+      - name: Print decoded JSON file
         run: cat keys.json
 
       # Add additional debugging steps here
