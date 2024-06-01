@@ -13,16 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Print GCP_SERVICE_ACCOUNT_KEY
+        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+
+      - name: Create keys.json file
+        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > keys.json
+
+      - name: Print keys.json file
+        run: cat keys.json
+
+      # Add additional debugging steps here
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.0.11
-
-      - name: Decode and create keys.json file
-        run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" | base64 -d > keys.json
-
-      - name: Print keys.json file
-        run: cat keys.json
 
       - name: Initialize Terraform
         run: terraform init
