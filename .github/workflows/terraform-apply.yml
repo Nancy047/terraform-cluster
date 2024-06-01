@@ -18,6 +18,9 @@ jobs:
         with:
           terraform_version: 1.0.11
 
+      - name: Set GOOGLE_APPLICATION_CREDENTIALS
+        run: echo "export GOOGLE_APPLICATION_CREDENTIALS=keys.json" >> $GITHUB_ENV
+
       - name: Create keys.json file
         run: echo "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}" > keys.json
 
