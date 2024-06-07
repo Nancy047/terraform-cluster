@@ -9,14 +9,15 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("keys.json")
+  credentials = "keys.json"
   project     = "my-project"
 }
 
 resource "google_container_cluster" "default" {
-  name     = "demo-clus"
+  name     = "my-cluster"
   location = "us-central1-c"
-  initial_node_count = 2
+  initial_node_count = 3
+
   node_config {
     machine_type = "n1-standard-1"
   }
