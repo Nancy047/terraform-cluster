@@ -9,13 +9,15 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "my-project"
 }
 
-resource "google_storage_bucket" "chatbot_terraform_bucket" {
-  name           = "chatbot-terraform-bucket"
-  location       = "us-central1"
-  storage_class  = "STANDARD"
-  uniform_bucket_level_access = false
+resource "google_container_cluster" "default" {
+  name     = "demo-clus"
+  location = "us-central1-c"
+  initial_node_count = 2
+  node_config {
+    machine_type = "n1-standard-1"
+  }
 }
