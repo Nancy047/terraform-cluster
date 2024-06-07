@@ -8,6 +8,7 @@ terraform {
   }
 }
 
+
 provider "google" {
   credentials = "keys.json"
   project     = "my-project"
