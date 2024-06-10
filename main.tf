@@ -9,13 +9,15 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("keys.json")
-  project     = "my-project"
+  credentials = "keys.json"
+  project     = "lumen-b-ctl-047"
 }
 
-resource "google_storage_bucket" "default" {
-  name           = "my-buc"
-  location       = "us-central1"
-  storage_class  = "STANDARD"
-  uniform_bucket_level_access = true
+resource "google_container_cluster" "default" {
+  name     = "mu"
+  location = "us-central1-c"
+  initial_node_count = 2
+  node_config {
+    machine_type = "e2-medium"
+  }
 }
