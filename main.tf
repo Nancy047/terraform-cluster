@@ -10,11 +10,11 @@ terraform {
 
 provider "google" {
   credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  project     = "my-project-id"
 }
 
 resource "google_container_cluster" "default" {
-  name     = "mu"
+  name     = "my-cluster"
   location = "us-central1-c"
   initial_node_count = 2
   node_config {
