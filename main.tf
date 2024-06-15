@@ -10,14 +10,19 @@ terraform {
 
 provider "google" {
   credentials = file("keys.json")
-  project     = "cvgbhjnkm"
+  project     = "vbnm"
 }
 
 resource "google_container_cluster" "default" {
-  name     = "cfvgbh"
+  name     = "cvbn"
   location = "us-central1-c"
-  initial_node_count = 2
+
+  initial_node_count = 1
   node_config {
-    machine_type = "e2-medium"
+    machine_type = "n1-standard-1"
+  }
+
+  master_auth {
+    username = "admin"
   }
 }
