@@ -10,19 +10,11 @@ terraform {
 
 provider "google" {
   credentials = file("keys.json")
-  project     = "vbnm"
+  project     = "my-project"
 }
 
-resource "google_container_cluster" "default" {
-  name     = "cvbn"
-  location = "us-central1-c"
-
-  initial_node_count = 1
-  node_config {
-    machine_type = "n1-standard-1"
-  }
-
-  master_auth {
-    username = "admin"
-  }
+resource "google_artifact_registry_repository" "default" {
+  location = "us-central1"
+  name     = "my-artifact"
+  project  = "my-project"
 }
