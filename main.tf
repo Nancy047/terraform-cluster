@@ -9,12 +9,12 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("keys.json")
-  project     = "my-project"
+  credentials = "keys.json"
+  project     = "lumen-b-ctl-047"
 }
 
 resource "google_artifact_registry_repository" "default" {
   location = "us-central1"
   name     = "my-registry"
-  project  = "my-project"
+  project  = "lumen-b-ctl-047"
 }
