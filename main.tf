@@ -10,11 +10,12 @@ terraform {
 
 provider "google" {
   credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
-  location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
-}
+resource "google_storage_bucket" "default" {
+  name     = "[bucket_name]"
+  location = "US"
+  storage_class = "STANDARD"
+  force_destroy = false
+  uniform_bucket_level_access =
