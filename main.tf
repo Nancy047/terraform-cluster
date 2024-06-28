@@ -9,12 +9,25 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
-  location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
+resource "google_storage_bucket" "default" {
+  name     = "[bucket_name]"
+  location = "US"
+  force_destroy = false
+  storage_class = "STANDARD"
+  uniform_bucket_level_access = true
+  versioning {
+    enabled = false
+  }
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+    condition {
+      age = 365
+    }
+  }
 }
