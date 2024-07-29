@@ -1,4 +1,5 @@
 
+# Configure the Google Cloud Provider
 terraform {
   required_providers {
     google = {
@@ -9,12 +10,44 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
-  location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
+# Configure Firebase Authentication
+resource "google_firebase_project" "default" {
+  project_id = "your-project-id"
 }
+
+resource "google_firebase_auth_provider" "default" {
+  project = google_firebase_project.default.project_id
+  provider {
+    uid = "google.com"
+    display_name = "Google"
+  }
+}
+
+resource "google_firebase_auth_provider" "email" {
+  project = google_firebase_project.default.project_id
+  provider {
+    uid = "password"
+    display_name = "Email/Password"
+  }
+}
+
+resource "google_firebase_auth_provider" "phone" {
+  project = google_firebase_project.default.project_id
+  provider {
+    uid = "phone"
+    display_name = "Phone"
+  }
+}
+
+resource "google_firebase_auth_provider" "anonymous" {
+  project = google_firebase_project.default.project_id
+  provider {
+    uid = "anonymous"
+    display_name = "Anonymous"
+  }
+}
+
