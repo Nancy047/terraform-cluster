@@ -9,12 +9,77 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
+resource "google_container_cluster" "default" {
+  name     = "gcp-kubernetes-cluster"
   location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
+  initial_node_count = 3
+  node_config {
+    machine_type = "n1-standard-4"
+  }
+  master_auth {
+    username = "admin"
+  }
+  network = "default"
+  subnetwork = "projects/gcp-project-id/regions/us-central1/subnetworks/default"
+  ip_allocation_policy {
+    use_ip_aliases = true
+  }
+  addons_config {
+    http_load_balancing {
+      disabled = false
+    }
+    horizontal_pod_autoscaling {
+      disabled = false
+    }
+  }
+  enable_autoscaling = true
+  min_master_nodes = 3
+  max_master_nodes = 5
+  min_nodes = 3
+  max_nodes = 5
+}
+
+resource "google_cloudfunctions_function" "default" {
+  name     = "gcp-cloud-function"
+  runtime  = "nodejs16"
+  entry_point = "helloHTTP"
+  source_archive_bucket = "gcp-cloud-function-bucket"
+  source_archive_object = "gcp-cloud-function.zip"
+  trigger_http = true
+  memory = 256
+  timeout = 60
+  region = "us-central1"
+  ingress_settings = "ALLOW_ALL"
+  available_memory_mb = 256
+  max_instance_count = 100
+  min_instance_count = 1
+}
+
+resource "google_app_engine_application" "default" {
+  location_id = "us-central1"
+  name        = "gcp-app-engine-app"
+}
+
+resource "google_app_engine_service" "default" {
+  name     = "gcp-app-engine-service"
+  location = "us-central1"
+  application = google_app_engine_application.default.name
+  env = "flexible"
+  runtime = "nodejs16"
+  scaling {
+    max_instances = 100
+    min_instances = 1
+  }
+  ingress_settings = "ALLOW_ALL"
+  basic_scaling {
+    max_instances = 100
+    min_instances = 1
+  }
+  manual_scaling {
+    instances = 100
+  }
 }
