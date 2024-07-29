@@ -9,12 +9,42 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
+resource "google_container_cluster" "default" {
+  name     = "default-cluster"
   location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
+  initial_node_count = 1
+  node_config {
+    machine_type = "e2-medium"
+  }
+  master_auth {
+    username = "admin"
+  }
+  network = "default"
+  subnetwork = "projects/abc/regions/us-central1/subnetworks/default"
+}
+
+resource "google_cloudfunctions_function" "default" {
+  name     = "default-function"
+  runtime  = "nodejs16"
+  entry_point = "helloHTTP"
+  source_archive_bucket = "default-bucket"
+  source_archive_object = "default-function.zip"
+  trigger_http = true
+  region = "us-central1"
+}
+
+resource "google_app_engine_application" "default" {
+  location_id = "us-central1"
+  name        = "default-app"
+}
+
+resource "google_app_engine_service" "default" {
+  name     = "default-service"
+  location = "us-central1"
+  application = google_app_engine_application.default.name
+  env = "flexible"
 }
