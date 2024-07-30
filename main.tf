@@ -1,4 +1,5 @@
 
+# Configure the Google Cloud Provider
 terraform {
   required_providers {
     google = {
@@ -9,12 +10,30 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
+# Network Intelligence Center
+resource "google_network_intelligence_center_config" "nic_config" {
+  name     = "nic-config"
   location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
+  config {
+    enable_network_visibility = true
+    enable_flow_logs           = true
+    enable_security_health     = true
+    enable_threat_detection    = true
+  }
 }
+
+resource "google_network_intelligence_center_location_config" "nic_location_config" {
+  name     = "nic-location-config"
+  location = "us-central1"
+  config {
+    enable_network_visibility = true
+    enable_flow_logs           = true
+    enable_security_health     = true
+    enable_threat_detection    = true
+  }
+}
+
