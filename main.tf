@@ -1,4 +1,5 @@
 
+# Configure the Google Cloud Provider
 terraform {
   required_providers {
     google = {
@@ -9,12 +10,13 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys.json"
-  project     = "lumen-b-ctl-047"
+  credentials = file("keys.json")
+  project     = "abc"
 }
 
-resource "google_artifact_registry_repository" "default" {
+# Database Migration Service
+resource "google_sql_database_migration_service" "basic_dms" {
+  name     = "basic-dms"
   location = "us-central1"
-  name     = "my-registry"
-  project  = "lumen-b-ctl-047"
+  # Basic usage: Use the default settings for the service.
 }
